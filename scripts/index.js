@@ -9,37 +9,37 @@ navbar_div.innerHTML = navbar();
 
 import { search, append } from "./fetch.js";
 
-// let query = document.getElementById('search_input').value;
+let searchData = (e) => {
+    if(e.key === 'Enter')
+    {
+        let query = document.getElementById('search_input').value;
+        // console.log(query);
+        const url = `https://masai-mock-api.herokuapp.com/news?q=${query}`;
+        search(url).then( (data) => {
+            console.log(data);
+            localStorage.setItem('news', JSON.stringify(data.articles));
+            window.location.href = 'search.html';
+        })
 
-// let searchData = (e) => {
-//     if(e.key === 'Enter')
-//     {
-//         let query = document.getElementById('search_input').value;
-//         const url = `https://masai-mock-api.herokuapp.com/news/top-headlines?country=${query}`;
-//         let container = document.getElementById('results');
-//         search(url).then( (data) => {
-//             console.log(data);
-//             window.location.href = 'search.html';
-//             append(data, container)
-//             window.location.href = 'search.html';
-//         })
+    }
+}
+document.getElementById('search_input').addEventListener('keydown',searchData);
 
-//     }
-// }
-
-// document.getElementById('search_input').addEventListener('keydown', searchData);
-
-// export {searchData};
-
-// document.getElementById('search_input').addEventListener('keydown', () => {
-
-//     searchData;
-
-//     window.location.href = 'search.html';
-
-// } );
+// Sidebar
 
 let containerCountry = document.getElementById('sidebar').children;
+
+// By default India
+
+let container = document.getElementById('results');
+const url = `https://masai-mock-api.herokuapp.com/news/top-headlines?country=in`
+
+search(url).then( (data) => {
+    console.log(data);
+    append(data.articles, container)
+})
+
+// When clicked on particular country
 
 function cSearch()
 {
@@ -48,7 +48,7 @@ let container = document.getElementById('results');
 container.innerHTML = null;
     search(url).then( (data) => {
         console.log(data);
-        append(data, container)
+        append(data.articles, container)
     })
 
 }

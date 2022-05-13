@@ -6,30 +6,45 @@ navbar_div.innerHTML = navbar();
 // Onclicking store the news in local storage with key "news" so that you can access that on news.html page
 
 // import { search, append } from "./fetch.js";
+let newsData = JSON.parse(localStorage.getItem('news'));
+// console.log(newsData);
 
-// let query = document.getElementById('search_input').value;
+let results = document.getElementById('results');
 
-// let searchData = (e) => {
-//     if(e.search === 'Enter')
-//     {
-//         let container = document.getElementById('results');
-//         container.innerHTML = null;
-//         let query = document.getElementById('search_input').value;
-//         // if(query == '')
-//         // {
-//         //     return false;
-//         // }
-//         search(query).then( (data) => {
-//             console.log(data);
-//             append(data, container)
-//         })
+newsData.forEach( ( {urlToImage, title, description} ) => {
 
-//     }
-// }
+    let div = document.createElement('div');
 
-// document.getElementById('search_input').addEventListener('keydown', searchData);
 
-// import { searchData } from "./index.js";
+    let img = document.createElement('img');
+    img.src = urlToImage;
+    img.style.width = '200px';
+    img.style.height = '300px';
 
-// let results_div = document.getElementById('results');
-// results_div.innerHTML = searchData;
+    let titl = document.createElement('h3');
+    titl.innerText = title;
+
+    let desc = document.createElement('p');
+    desc.innerText = description;
+
+    div.append(img, titl, desc);
+
+    let newsDataDetail = {
+        urlToImage,
+        title,
+        description
+    }
+
+    div.onclick = () => {
+        showDetailNews(newsDataDetail);
+   
+    }
+
+    results.append(div);
+});
+// results.append(newsData);
+
+const showDetailNews = (x) => {
+    window.location.href = 'news.html';
+    localStorage.setItem('detailNews', JSON.stringify(x));
+}

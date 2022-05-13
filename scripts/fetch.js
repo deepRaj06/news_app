@@ -6,8 +6,8 @@ let search = async (url) => {
     // let res = await fetch(`https://masai-mock-api.herokuapp.com/news/top-headlines?country=${cc}`);
     console.log(res);
     let data = await res.json();
-    // console.log(data);
-    return data.articles;
+    console.log(data);
+    return data;
 }
 
 let append = (data, container) => {
